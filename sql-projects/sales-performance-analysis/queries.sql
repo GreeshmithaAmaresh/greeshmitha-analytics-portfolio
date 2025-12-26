@@ -18,6 +18,20 @@ SELECT
     COUNT(DISTINCT customer_id) AS total_customers
 FROM sales;
 
+-- Revenue contribution by country
+SELECT 
+    country,
+    ROUND(SUM(quantity * unit_price), 2) AS total_revenue,
+    ROUND(
+        100 * SUM(quantity * unit_price) /
+        (SELECT SUM(quantity * unit_price) FROM sales),
+        2
+    ) AS revenue_percentage
+FROM sales
+GROUP BY country
+ORDER BY total_revenue DESC;
+
+
 
 -- =====================================
 -- REVENUE ANALYSIS
